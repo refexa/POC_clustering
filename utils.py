@@ -8,6 +8,7 @@ from sklearn.decomposition import LatentDirichletAllocation as LDA
 from PyPDF2 import PdfReader
 import pandas as pd
 import numpy as np
+nltk.download('punkt_tab')
 
 # Helper function to read PDF file
 def read_pdf(file):
