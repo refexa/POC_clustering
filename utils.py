@@ -1,10 +1,18 @@
 import re
 import nltk
+import streamlit as st
 from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.decomposition import LatentDirichletAllocation as LDA
 
+from sklearn.decomposition import PCA
+import pandas as pd
+import plotly.express as px
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+import numpy as np
 from PyPDF2 import PdfReader
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
@@ -151,5 +159,48 @@ def classify_and_cluster(doc_content_list, n_clusters=5):
             topics.append([])  # Empty list for clusters with no data points
 
     return tfidf_matrix, clusters, topics, vectorizer
+
+
+# Create a word cloud for each cluster
+def create_wordcloud(tfidf_matrix, clusters, vectorizer, n_clusters):
+    """
+    Generates and displays word clouds for each cluster based on TF-IDF matrix.
+
+    Args:
+        tfidf_matrix (array-like): The TF-IDF matrix of the document corpus.
+        clusters (array-like): The cluster labels for each document.
+        vectorizer (TfidfVectorizer): The vectorizer used to extract feature names.
+        n_clusters (int): The number of clusters to generate word clouds for.
+
+    Returns:
+        None: Displays word clouds for each cluster in Streamlit.
+    """
+    feature_names = vectorizer.get_feature_names_out()
+
+    for cluster_num in range(n_clusters):
+        cluster_indices = [i for i, label in enumerate(clusters) if label == cluster_num]
+        cluster_tfidf = tfidf_matrix[cluster_indices].toarray().sum(axis=0)
+
+        # Create a dictionary for word frequencies
+        word_freq = {feature_names[i]: cluster_tfidf[i] for i in range(len(feature_names)) if cluster_tfidf[i] > 0}
+
+        # Generate the word cloud
+        wordcloud = WordCloud(width=400, height=200, background_color='white').generate_from_frequencies(word_freq)
+
+        # Use columns to arrange word clouds
+        if cluster_num % 2 == 0:
+            # Start a new row with two columns
+            col1, col2 = st.columns(2)
+
+        # Choose column to display in
+        col = col1 if cluster_num % 2 == 0 else col2
+
+        # Display the word cloud using matplotlib in the chosen column
+        with col:
+            st.subheader(f"Word Cloud for Cluster {cluster_num + 1}")
+            fig, ax = plt.subplots(figsize=(5, 2.5))  # Adjust the size of the plot
+            ax.imshow(wordcloud, interpolation='bilinear')
+            ax.axis('off')
+            st.pyplot(fig)
 
 

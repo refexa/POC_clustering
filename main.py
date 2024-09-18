@@ -5,49 +5,8 @@ import plotly.express as px
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-from utils import read_pdf, split_document, topic_modeling, classify_and_cluster
+from utils import read_pdf, split_document, topic_modeling, classify_and_cluster, create_wordcloud
 
-# Create a word cloud for each cluster
-def create_wordcloud(tfidf_matrix, clusters, vectorizer, n_clusters):
-    """
-    Generates and displays word clouds for each cluster based on TF-IDF matrix.
-
-    Args:
-        tfidf_matrix (array-like): The TF-IDF matrix of the document corpus.
-        clusters (array-like): The cluster labels for each document.
-        vectorizer (TfidfVectorizer): The vectorizer used to extract feature names.
-        n_clusters (int): The number of clusters to generate word clouds for.
-
-    Returns:
-        None: Displays word clouds for each cluster in Streamlit.
-    """
-    feature_names = vectorizer.get_feature_names_out()
-
-    for cluster_num in range(n_clusters):
-        cluster_indices = [i for i, label in enumerate(clusters) if label == cluster_num]
-        cluster_tfidf = tfidf_matrix[cluster_indices].toarray().sum(axis=0)
-
-        # Create a dictionary for word frequencies
-        word_freq = {feature_names[i]: cluster_tfidf[i] for i in range(len(feature_names)) if cluster_tfidf[i] > 0}
-
-        # Generate the word cloud
-        wordcloud = WordCloud(width=400, height=200, background_color='white').generate_from_frequencies(word_freq)
-
-        # Use columns to arrange word clouds
-        if cluster_num % 2 == 0:
-            # Start a new row with two columns
-            col1, col2 = st.columns(2)
-
-        # Choose column to display in
-        col = col1 if cluster_num % 2 == 0 else col2
-
-        # Display the word cloud using matplotlib in the chosen column
-        with col:
-            st.subheader(f"Word Cloud for Cluster {cluster_num + 1}")
-            fig, ax = plt.subplots(figsize=(5, 2.5))  # Adjust the size of the plot
-            ax.imshow(wordcloud, interpolation='bilinear')
-            ax.axis('off')
-            st.pyplot(fig)
 
 # Set Streamlit page configuration to wide
 st.set_page_config(layout="wide")
@@ -84,7 +43,8 @@ if uploaded_files is not None and len(uploaded_files) > 0:
 
     if len(all_doc_content_list) > 1:
         # Slider to select number of clusters
-        n_clusters = st.slider("Select number of clusters", min_value=2, max_value=min(10, len(all_doc_content_list)), value=5)
+        n_clusters = st.slider("Select number of clusters", min_value=2, max_value=min(10, len(all_doc_content_list)),
+                               value=5)
 
         # Apply KMeans clustering and topic modeling
         tfidf_matrix, clusters, topics, vectorizer = classify_and_cluster(all_doc_content_list, n_clusters)
@@ -93,8 +53,12 @@ if uploaded_files is not None and len(uploaded_files) > 0:
         # Display cluster and topic information
         for i, cluster_topics in enumerate(topics):
             st.write(f"Cluster {i + 1}:")
-            for topic in cluster_topics:
-                st.write(topic)
+            # Convert each topic to a string if it is not already
+            cluster_topics_str = [str(topic) for topic in cluster_topics]
+            # Join the topics into a single line
+            topics_str = ", ".join(cluster_topics_str)
+            st.write(topics_str)  # Print the topics as a single line
+
 
         st.header("Cluster Word Clouds")
         # Create and display word clouds for each cluster
