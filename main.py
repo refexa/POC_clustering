@@ -9,6 +9,18 @@ from utils import read_pdf, split_document, topic_modeling, classify_and_cluster
 
 # Create a word cloud for each cluster
 def create_wordcloud(tfidf_matrix, clusters, vectorizer, n_clusters):
+    """
+    Generates and displays word clouds for each cluster based on TF-IDF matrix.
+
+    Args:
+        tfidf_matrix (array-like): The TF-IDF matrix of the document corpus.
+        clusters (array-like): The cluster labels for each document.
+        vectorizer (TfidfVectorizer): The vectorizer used to extract feature names.
+        n_clusters (int): The number of clusters to generate word clouds for.
+
+    Returns:
+        None: Displays word clouds for each cluster in Streamlit.
+    """
     feature_names = vectorizer.get_feature_names_out()
 
     for cluster_num in range(n_clusters):
