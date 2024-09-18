@@ -13,7 +13,7 @@ This project provides an interactive web-based tool using Streamlit for clusteri
 ## Installation
 
 **Clone the repository:**
-`git clone https://github.com/yourusername/document-clustering-wordcloud.git`
+`git clone https://github.com/Qammarbhat/POC_clustering.git`
 
 **Navigate to the project directory:**
 `cd document-clustering-wordcloud`
