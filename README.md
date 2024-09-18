@@ -16,7 +16,7 @@ This project provides an interactive web-based tool using Streamlit for clusteri
 `git clone https://github.com/Qammarbhat/POC_clustering.git`
 
 **Navigate to the project directory:**
-`cd document-clustering-wordcloud`
+`cd POC_clustering`
 
 **Install the required dependencies:**
 `pip install -r requirements.txt`
