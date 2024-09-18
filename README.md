@@ -12,28 +12,17 @@ This project provides an interactive web-based tool using Streamlit for clusteri
 
 ## Installation
 
-Clone the repository:
+**Clone the repository:**
+`git clone https://github.com/yourusername/document-clustering-wordcloud.git`
 
-```bash
-git clone https://github.com/yourusername/document-clustering-wordcloud.git
+**Navigate to the project directory:**
+`cd document-clustering-wordcloud`
 
-Navigate to the project directory:
+**Install the required dependencies:**
+`pip install -r requirements.txt`
 
-bash
-
-cd document-clustering-wordcloud
-
-Install the required dependencies:
-
-bash
-
-pip install -r requirements.txt
-
-Run the Streamlit app:
-
-bash
-
-streamlit run main.py
+**Run the Streamlit app:**
+`streamlit run main.py`
 
 ## Usage
 
