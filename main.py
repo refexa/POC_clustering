@@ -41,6 +41,7 @@ if uploaded_files is not None and len(uploaded_files) > 0:
         doc_content_list = split_document(doc_content)
         all_doc_content_list.extend(doc_content_list)  # Combine all documents into one list
 
+
     if len(all_doc_content_list) > 1:
         # Slider to select number of clusters
         n_clusters = st.slider("Select number of clusters", min_value=2, max_value=min(10, len(all_doc_content_list)),

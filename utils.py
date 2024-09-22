@@ -144,6 +144,8 @@ def classify_and_cluster(doc_content_list, n_clusters=5):
 
     # Get topics for each cluster using topic modeling
     topics = []
+
+    # Retrieve the words used by TFIDF vectorizer
     feature_names = vectorizer.get_feature_names_out()  # Ensure this is a list of strings
 
     for cluster_num in range(n_clusters):
@@ -175,6 +177,8 @@ def create_wordcloud(tfidf_matrix, clusters, vectorizer, n_clusters):
     Returns:
         None: Displays word clouds for each cluster in Streamlit.
     """
+
+    # extract feature name, words in each column
     feature_names = vectorizer.get_feature_names_out()
 
     for cluster_num in range(n_clusters):
