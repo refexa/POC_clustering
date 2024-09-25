@@ -6,3 +6,4 @@ PyPDF2
 plotly
 wordcloud
 fastapi
+uvicorn[standard]
