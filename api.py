@@ -23,9 +23,9 @@ app.add_middleware(
 )
 
 # localhost//cluster-documents/
-@app.post("/our-new-api/")
-async def test():
-    return "We are up and runnning"
+@app.get("/")
+async def root():
+    return {"message": "We are up and running"}
 
 @app.post("/cluster-documents/")
 async def cluster_documents(files: List[UploadFile] = File(...), n_clusters: int = 5):
@@ -95,7 +95,3 @@ async def cluster_documents(files: List[UploadFile] = File(...), n_clusters: int
     return JSONResponse(content={"clusters": cluster_data, "wordclouds": wordclouds})
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
