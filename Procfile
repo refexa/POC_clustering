@@ -1,0 +1,1 @@
+web: sh setup.sh && uvicorn api:app --reload
