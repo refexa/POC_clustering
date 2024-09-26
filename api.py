@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 from typing import List
 from utils import read_pdf, split_document, classify_and_cluster
 import base64
+import uvicorn
 
 app = FastAPI()
 
@@ -93,5 +94,10 @@ async def cluster_documents(files: List[UploadFile] = File(...), n_clusters: int
 
     # Return clusters, topics, and word clouds
     return JSONResponse(content={"clusters": cluster_data, "wordclouds": wordclouds})
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+
 
 
