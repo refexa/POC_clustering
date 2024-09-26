@@ -96,8 +96,4 @@ async def cluster_documents(files: List[UploadFile] = File(...), n_clusters: int
     return JSONResponse(content={"clusters": cluster_data, "wordclouds": wordclouds})
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
-
-
 
