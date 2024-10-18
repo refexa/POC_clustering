@@ -45,7 +45,7 @@ if uploaded_files is not None and len(uploaded_files) > 0:
     if len(all_doc_content_list) > 1:
         # Slider to select number of clusters
         n_clusters = st.slider("Select number of clusters", min_value=2, max_value=min(10, len(all_doc_content_list)),
-                               value=5)
+                            value=5)
 
         # Apply KMeans clustering and topic modeling
         tfidf_matrix, clusters, topics, vectorizer = classify_and_cluster(all_doc_content_list, n_clusters)
